@@ -21,5 +21,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('branches', BranchController::class);
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('shipments', ShipmentController::class);
-    Route::get('/category',categoryController::class,'index');
+   // Admin-only routes
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/categories/{id}', [CategoryController::class, 'show']);
+
+// Standard CRUD routes
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::put('/categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+    // Soft delete / trash / restore / force delete
+    Route::get('/categories/trash', [CategoryController::class, 'trash']);
+    Route::post('/categories/{id}/restore', [CategoryController::class, 'restore']);
+    Route::delete('/categories/{id}/force', [CategoryController::class, 'forceDelete']);
 });
